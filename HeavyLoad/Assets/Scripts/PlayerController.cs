@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
     private Rigidbody rb;
+    private float inputMove;
+    private float inputTurn;
     public float deadZone = 0.1f;
     public float movespeed = 10f;
     public float turnspeed = 100f;
@@ -28,14 +30,19 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void Turn() {
+        inputTurn = Input.GetAxis("Horizontal");
+
         if (Mathf.Abs(rb.velocity.magnitude) > deadZone) {
-            float turn = Input.GetAxis("Horizontal") * turnspeed * Time.deltaTime;
-            Quaternion turnRotation = Quaternion.Euler(0f, 0f, turn);
+            float turn = inputTurn * turnspeed * Time.deltaTime;
+            Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
             rb.MoveRotation(rb.rotation * turnRotation);
         }
     }
 
     private void Move() {
-        rb.velocity = transform.right * -Input.GetAxis("Vertical") * movespeed;
+        inputMove = Input.GetAxis("Vertical");
+
+        if (Mathf.Abs(inputMove) > deadZone)
+            rb.velocity = transform.forward * inputMove * movespeed;
     }
 }
