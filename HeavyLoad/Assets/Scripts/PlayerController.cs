@@ -30,12 +30,12 @@ public class PlayerController : MonoBehaviour {
     private void Turn() {
         if (Mathf.Abs(rb.velocity.magnitude) > deadZone) {
             float turn = Input.GetAxis("Horizontal") * turnspeed * Time.deltaTime;
-            Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
+            Quaternion turnRotation = Quaternion.Euler(0f, 0f, turn);
             rb.MoveRotation(rb.rotation * turnRotation);
         }
     }
 
     private void Move() {
-        rb.velocity = transform.forward * Input.GetAxis("Vertical") * movespeed;
+        rb.velocity = transform.right * -Input.GetAxis("Vertical") * movespeed;
     }
 }
