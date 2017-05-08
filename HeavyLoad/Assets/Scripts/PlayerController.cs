@@ -46,6 +46,8 @@ public class PlayerController : MonoBehaviour {
             Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
             rb.MoveRotation(rb.rotation * turnRotation);
         }
+        else
+            rb.angularVelocity = Vector3.zero;
     }
 
     private void Move() {
@@ -53,6 +55,8 @@ public class PlayerController : MonoBehaviour {
 
         if (Mathf.Abs(inputMove) > deadZone)
             rb.velocity = transform.forward * inputMove * movespeed;
+        else
+            rb.velocity = Vector3.zero;
     }
 
     private void OnTriggerEnter(Collider col) {
