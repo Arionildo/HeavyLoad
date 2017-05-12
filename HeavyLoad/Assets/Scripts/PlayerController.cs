@@ -4,13 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-    private Rigidbody rb;
     private float inputMove;
     private float inputTurn;
     private Vector3 originalPosition;
     private Quaternion originalRotation;
     private bool hasControl;
-    public float deadZone = 0.1f;
     public float movespeed = 10f;
     public float turnspeed = 100f;
 
@@ -19,11 +17,6 @@ public class PlayerController : MonoBehaviour {
         originalPosition = transform.position;
         originalRotation = transform.rotation;
         Invoke("EnableControls", 1);
-
-        if (GetComponent<Rigidbody>())
-            rb = GetComponent<Rigidbody>();
-        else
-            Debug.LogError("RIGIDBODY is missing.");
     }
 
     // Update is called once per frame
@@ -41,22 +34,12 @@ public class PlayerController : MonoBehaviour {
     private void Turn() {
         inputTurn = Input.GetAxis("Horizontal");
 
-        if (Mathf.Abs(rb.velocity.magnitude) > deadZone) {
-            float turn = inputTurn * turnspeed * Time.deltaTime;
-            Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
-            rb.MoveRotation(rb.rotation * turnRotation);
-        }
-        else
-            rb.angularVelocity = Vector3.zero;
+        float turn = inputTurn * turnspeed * Time.deltaTime;
+        Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
     }
 
     private void Move() {
         inputMove = Input.GetAxis("Vertical");
-
-        if (Mathf.Abs(inputMove) > deadZone)
-            rb.velocity = transform.forward * inputMove * movespeed;
-        else
-            rb.velocity = Vector3.zero;
     }
 
     private void OnTriggerEnter(Collider col) {
@@ -66,7 +49,6 @@ public class PlayerController : MonoBehaviour {
 
     private void Respawn() {
         hasControl = false;
-        rb.velocity = Vector3.zero;
         transform.position = originalPosition;
         transform.rotation = originalRotation;
 
