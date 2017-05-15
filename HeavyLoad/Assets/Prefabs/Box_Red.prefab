@@ -22,11 +22,11 @@ GameObject:
   - component: {fileID: 33797500280034482}
   - component: {fileID: 65231990748438186}
   - component: {fileID: 23737310521573772}
-  - component: {fileID: 54225627083666704}
   - component: {fileID: 114150759252757692}
+  - component: {fileID: 54549123356833574}
   m_Layer: 0
   m_Name: Box_Red
-  m_TagString: Untagged
+  m_TagString: Box
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74,6 +74,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33797500280034482
 MeshFilter:
@@ -82,7 +83,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1991427670217962}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &54225627083666704
+--- !u!54 &54549123356833574
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

@@ -7,8 +7,10 @@
 [Oo]bj/
 [Bb]uild/
 [Bb]uilds/
+[Dd]ata/
 sysinfo.txt
 *.stackdump
+*.exe
  
 # ============================================= #
 # Visual Studio / MonoDevelop / Rider generated #

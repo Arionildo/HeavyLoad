@@ -24,6 +24,7 @@ public class BoxScript : MonoBehaviour {
         else {
             transform.position = originalPosition;
             transform.rotation = originalRotation;
+			GetComponent<Rigidbody> ().velocity = Vector3.zero;
         }
     }
 }

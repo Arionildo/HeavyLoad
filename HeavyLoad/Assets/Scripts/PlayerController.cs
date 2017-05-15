@@ -4,43 +4,52 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-    private float inputMove;
-    private float inputTurn;
-    private Vector3 originalPosition;
-    private Quaternion originalRotation;
-    private bool hasControl;
-    public float movespeed = 10f;
-    public float turnspeed = 100f;
+	public float z = 1000;
+	public float maxSpeed = 10 ;
+	public float turnSpeed = 100;
+	public float gravity = 0;
+	private float forca_cima, forca_lado;
+	Vector3 forca_movimento, forca_convertida;
+	private Vector3 originalPosition;
+	private Quaternion originalRotation;
+	private bool hasControl;
+	float maxDistanceToGround;
+	private CharacterController cc;
 
-    // Use this for initialization
-    private void Start () {
-        originalPosition = transform.position;
-        originalRotation = transform.rotation;
-        Invoke("EnableControls", 1);
-    }
+	void Start () {
 
-    // Update is called once per frame
-    private void Update () {
+		cc = GetComponent<CharacterController>();
+		originalPosition = transform.position;
+		originalRotation = transform.rotation;
+		Invoke("EnableControls", 1);
 
 	}
 
-    private void FixedUpdate() {
-        if (hasControl) {
-            Move();
-            Turn();
-        }
-    }
+	void Update () {
+		cc.Move(new Vector3(0, gravity* Time.deltaTime, 0));
 
-    private void Turn() {
-        inputTurn = Input.GetAxis("Horizontal");
+		if (hasControl) {
+			Movement ();
+		}
+	}
 
-        float turn = inputTurn * turnspeed * Time.deltaTime;
-        Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
-    }
+	void Movement()
+	{  
+		z = Input.GetAxis("Vertical")*maxSpeed* Time.deltaTime;
+		transform.Rotate (new Vector3 (0, Input.GetAxis("Horizontal")*turnSpeed* Time.deltaTime, 0));
 
-    private void Move() {
-        inputMove = Input.GetAxis("Vertical");
-    }
+		forca_movimento = new Vector3(0, gravity, z);
+		forca_convertida = transform.TransformDirection(forca_movimento);
+		cc.Move(forca_convertida);
+	}
+
+	void OnControllerColliderHit(ControllerColliderHit hit) {
+		Rigidbody body = hit.collider.attachedRigidbody;
+
+		if (body != null && !body.isKinematic) {
+			body.AddForceAtPosition (new Vector3 (hit.point.x, 0, hit.point.z), hit.point);
+		}
+	}
 
     private void OnTriggerEnter(Collider col) {
         if (col.tag.Equals("Goal"))
